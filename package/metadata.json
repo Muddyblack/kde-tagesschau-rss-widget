@@ -1,0 +1,20 @@
+{
+  "KPackageStructure": "Plasma/Applet",
+  "KPlugin": {
+    "Id": "org.muddyblack.tagesschauWidget",
+    "Name": "Tagesschau Premium News",
+    "Description": "Premium German news ticker with breaking news (Eilmeldungen) alerts and expandable inline articles.",
+    "Icon": "org.muddyblack.tagesschauWidget",
+    "Category": "News",
+    "Version": "0.1.0",
+    "Website": "https://github.com/Muddyblack/tagesschau-widget",
+    "Authors": [
+      {
+        "Name": "muddyblack"
+      }
+    ],
+    "License": "MIT",
+    "EnabledByDefault": true
+  },
+  "X-Plasma-API-Minimum-Version": "6.0"
+}

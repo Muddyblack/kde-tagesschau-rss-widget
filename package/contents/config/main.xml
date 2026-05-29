@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+    <group name="General">
+        <entry name="feedsJson" type="String">
+            <default>[{"name":"Tagesschau","type":"json-tagesschau","url":"https://www.tagesschau.de/api2u/homepage","icon":""},{"name":"Märkte","type":"finance","url":"finance-board","symbols":"^GDAXI,^DJI,^IXIC,EURUSD=X,BTC-USD,ETH-USD,AIR.PA,RHM.DE,TSM,NVDA,ASML,AMD","icon":"view-financial-list"}]</default>
+        </entry>
+        <entry name="currentFeedIndex" type="Int">
+            <default>0</default>
+        </entry>
+    </group>
+</kcfg>
