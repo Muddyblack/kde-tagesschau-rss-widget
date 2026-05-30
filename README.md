@@ -1,18 +1,18 @@
 <p align="center">
-  <img src="./readme/icon.svg" width="120" alt="Tagesschau Widget Logo">
+  <img src="./readme/icon.svg" width="120" alt="Tagesschau Widget">
 </p>
 
-<h1 align="center">Tagesschau Premium News Widget</h1>
+<h1 align="center">Tagesschau Widget</h1>
 
 <p align="center">
-  <a href="https://github.com/Muddyblack/tagesschau-widget">
-    <img src="https://img.shields.io/badge/KDE_Store-Coming_Soon-orange?style=for-the-badge&logo=kde&logoColor=white" alt="KDE Store" />
+  <a href="https://store.kde.org/p/2360974/">
+    <img src="https://img.shields.io/badge/KDE_Store-Install-1d99f3?style=for-the-badge&logo=kde&logoColor=white" alt="KDE Store" />
   </a>
   <img src="https://img.shields.io/badge/KDE_Plasma-6.0%2B-1d99f3?style=for-the-badge&logo=kde&logoColor=white" alt="KDE Plasma 6.0+" />
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="License: MIT" />
   </a>
-  <img src="https://img.shields.io/github/downloads/Muddyblack/tagesschau-widget/total?style=for-the-badge&logo=kdeplasma&logoColor=white&label=Downloads&color=blue" alt="Downloads" />
+  <img src="https://img.shields.io/github/downloads/Muddyblack/kde-tagesschau-rss-widget/total?style=for-the-badge&logo=kdeplasma&logoColor=white&label=Downloads&color=blue" alt="Downloads" />
 </p>
 
 <p align="center">
@@ -21,55 +21,60 @@
   <img src="./readme/demo.svg" alt="Popup view" width="320" valign="middle"/>
 </p>
 
-A KDE Plasma 6 panel widget for tracking German breaking news (*Eilmeldungen*), custom RSS feeds, and live stock or cryptocurrency prices. Featuring custom desktop notification integrations, an inline expandable article viewer, and a target list IPO watcher.
+<p align="center">
+  <img src="./readme/image.png" alt="Widget screenshot" width="520"/>
+</p>
+
+A KDE Plasma 6 panel widget for following German news (*Eilmeldungen*), custom RSS feeds, and live stock/crypto prices.
+
+> Mainly aimed at German speakers — the primary news source is [tagesschau.de](https://www.tagesschau.de), most content and categories are in German.
 
 ---
 
-## Features
+## What it does
 
-- **Multi-source Feeds** — Toggle between Tagesschau (JSON API), Markets (Yahoo Finance & Binance), and custom RSS/Atom news feeds.
-- **Customizable Icons** — Select custom system icon names (e.g. `brand-bbc`, `chart-line`, `financial`, or custom local SVG names) for each individual feed or ticker directly from the configuration UI.
-- **Breaking News Alerts** — Live tracking of German *Eilmeldungen* with a glowing panel icon, pulsing red notification badge, and instant critical desktop notifications.
-- **Expandable Articles** — Click news cards inside the popup to expand details inline (showing summary paragraphs, publication dates, and teaser images) without opening a browser.
-- **Finance Board** — Real-time price tracking and percentage changes for stock market indices (DAX, Dow Jones, NASDAQ), currencies (EUR/USD), cryptocurrencies (Bitcoin, Ethereum, Solana), and popular technology or aerospace equities.
-- **IPO Watch Alerts** — Pinned watch-list of target companies (e.g. Anthropic, SpaceX, OpenAI, Stripe, Klarna, Starlink). If any news item matches an IPO keyword, it triggers a desktop notification.
-- **Category Filters** — Quickly narrow down Tagesschau homepage stories by ressort categories (Inland, Ausland, Wirtschaft, Sport, Wissen, or Investigativ).
-- **Sleek Glassmorphism** — Gorgeous frosted card styling, border highlights, and smooth, responsive animations tailored for modern Linux Dark Themes.
-- **Auto-Refresh** — Periodically polls news feeds and stock details every 5 minutes (configurable), plus a manual refresh action button in the header.
+- **Tagesschau feed** — pulls from the official JSON API, shows headlines, teasers, and breaking news alerts
+- **Custom RSS/Atom feeds** — add any feed URL and give it a custom icon
+- **Finance board** — live prices for DAX, Dow, NASDAQ, EUR/USD, BTC, ETH, SOL, and a few tech stocks via Yahoo Finance and Binance
+- **Breaking news** — if `breakingNews` is set in the API response, the panel icon turns red and you get a desktop notification
+- **Expandable articles** — click a card to see the summary inline without opening a browser
+- **IPO watchlist** — checks headlines against a list of companies (Anthropic, SpaceX, OpenAI, Stripe, etc.) and notifies you if something matches
+- **Category filter** — filter Tagesschau stories by section (Inland, Ausland, Wirtschaft, Sport, Wissen, Investigativ)
+- **Auto-refresh** — polls every 5 minutes, or hit the manual refresh button
 
 ---
 
 ## Requirements
 
-| Dependency | Purpose |
+| Dependency | Why |
 |---|---|
-| KDE Plasma 6.0+ | Widget host environment (`X-Plasma-API-Minimum-Version: 6.0`) |
-| `plasma5support` | Provides the `executable` DataEngine for executing CLI commands |
-| `libnotify` / `notify-send` | Triggering critical system notification popups for breaking news or IPO matches |
+| KDE Plasma 6.0+ | widget host |
+| `plasma5support` | needed for the `executable` DataEngine |
+| `libnotify` / `notify-send` | desktop notifications for breaking news and IPO hits |
 
 ---
 
 ## Install
 
-### Manual (any distro)
+### Manual
 
 ```bash
-git clone https://github.com/Muddyblack/tagesschau-widget.git
-cd tagesschau-widget
+git clone https://github.com/Muddyblack/kde-tagesschau-rss-widget.git
+cd kde-tagesschau-rss-widget
 kpackagetool6 -t Plasma/Applet -i package
-# or to update an existing install:
+# update existing install:
 kpackagetool6 -t Plasma/Applet -u package
 ```
 
-Then right-click your panel → *Add Widgets* → search **"Tagesschau Premium News"**.
+Right-click your panel → *Add Widgets* → search **"Tagesschau"**.
 
-To remove:
+Remove:
 
 ```bash
 kpackagetool6 -t Plasma/Applet -r org.muddyblack.tagesschauWidget
 ```
 
-### Development / test install
+### Dev install
 
 ```bash
 make install
@@ -77,9 +82,9 @@ make install
 ./test_install.sh
 ```
 
-Installs as `Tagesschau Premium News (Test)` alongside the production widget so you can develop without replacing your active install.
+Installs as a separate test widget so you don't clobber your running one.
 
-To remove the test version:
+Remove test version:
 
 ```bash
 kpackagetool6 -t Plasma/Applet -r org.muddyblack.tagesschauWidgetTest
@@ -89,9 +94,8 @@ rm -f ~/.local/share/icons/hicolor/scalable/apps/org.muddyblack.tagesschauWidget
 ### NixOS (flake)
 
 ```nix
-# flake.nix
 {
-  inputs.tagesschau-widget.url = "github:Muddyblack/tagesschau-widget";
+  inputs.tagesschau-widget.url = "github:Muddyblack/kde-tagesschau-rss-widget";
 
   outputs = { self, nixpkgs, tagesschau-widget, ... }: {
     nixosConfigurations.mybox = nixpkgs.lib.nixosSystem {
@@ -107,7 +111,7 @@ rm -f ~/.local/share/icons/hicolor/scalable/apps/org.muddyblack.tagesschauWidget
 }
 ```
 
-### Package as `.plasmoid`
+### Pack as `.plasmoid`
 
 ```bash
 make pack
@@ -118,26 +122,21 @@ make pack
 
 ## How it works
 
-### Tagesschau JSON Homepage Feed
-On each refresh cycle, the widget queries `https://www.tagesschau.de/api2u/homepage`. It parses the stories, looking for teaser images (resolving best responsive dimensions, e.g. `16x9-640`), headlines, short descriptions, publication dates, and the `breakingNews` boolean flag. If `breakingNews` is detected, it shifts the widget header and panel icon to alert red and runs `notify-send` to push a critical desktop notification.
+**Tagesschau feed** — queries `https://www.tagesschau.de/api2u/homepage` on each refresh. Picks out headlines, teasers, dates, images (`16x9-640`), and the `breakingNews` flag.
 
-### RSS Fallback Parser
-When a custom news feed URL is configured, the widget queries the RSS XML endpoint, strips tag namespaces, extracts the title, links, description texts, publication dates, and matches enclosures, thumbnails, or embedded images for visual rendering.
+**RSS parser** — for custom feeds, fetches the XML, strips namespaces, and pulls title, link, description, date, and any attached images.
 
-### Finance Stock & Crypto Board
-- **Cryptocurrencies**: Directly queries Binance's public REST API (`https://api.binance.com/api/v3/ticker/24hr?symbol=<Symbol>USDT`) for low-latency spot price updates and 24h percentage movements.
-- **Indices, Equities & Forex**: Queries Yahoo Finance chart endpoints (`https://query1.finance.yahoo.com/v8/finance/chart/<Symbol>`) using custom browser User-Agents, calculating value changes against yesterday's market close.
+**Finance** — crypto comes from Binance (`/api/v3/ticker/24hr`), everything else from Yahoo Finance chart API. Changes are calculated against yesterday's close.
 
-### IPO Watch Notifications
-Whenever news is fetched, the title and descriptions are matched against a watchlist of high-profile private companies (Anthropic, SpaceX, OpenAI, Stripe, Klarna, Starlink) and IPO keywords (e.g. `börsengang`, `ipo`, `going public`, `listing`). A match triggers a desktop notification saying `📈 IPO Watch: <Company>` along with the news headline.
+**IPO watch** — every fetch checks titles and descriptions against the watchlist + keywords like `börsengang`, `ipo`, `going public`, `listing`. A match sends a notification.
 
 ---
 
 ## Development
 
-Use the included Makefile for convenient shortcuts:
-
-- **Preview Widget (Planar)**: `make view`
-- **Preview Widget (Horizontal Panel)**: `make view-h`
-- **Install Test Version**: `make install`
-- **Pack to Plasmoid Archive**: `make pack`
+```bash
+make view      # preview in planar mode
+make view-h    # preview in horizontal panel
+make install   # install test version
+make pack      # build .plasmoid archive
+```
