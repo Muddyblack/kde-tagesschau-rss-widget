@@ -80,6 +80,32 @@ PlasmoidItem {
     // Companies to watch for IPO / market-listing news
     readonly property var ipoWatchList: ["Anthropic", "SpaceX", "OpenAI", "Stripe", "Klarna", "Starlink"]
 
+    // Persisted set of alert keys already shown, so refreshes/restarts don't re-notify
+    function alertKey(prefix, title) {
+        return prefix + ":" + (title || "").trim().toLowerCase();
+    }
+
+    function loadNotified() {
+        try {
+            var list = JSON.parse(plasmoid.configuration.notifiedAlertsJson || "[]");
+            return Array.isArray(list) ? list : [];
+        } catch (e) {
+            return [];
+        }
+    }
+
+    // Returns true if the key was new (and records it), false if already notified
+    function claimNotification(key) {
+        var list = loadNotified();
+        if (list.indexOf(key) >= 0)
+            return false;
+        list.push(key);
+        if (list.length > 300)
+            list = list.slice(list.length - 300);
+        plasmoid.configuration.notifiedAlertsJson = JSON.stringify(list);
+        return true;
+    }
+
     function checkIpoAlert(title, description) {
         var text = (title + " " + description).toLowerCase();
         var ipoKeywords = ["ipo", "börsengang", "going public", "geht an die börse", "initial public offering", "listing", "börsennotierung", "börsenstart"];
@@ -95,6 +121,9 @@ PlasmoidItem {
         for (var c = 0; c < root.ipoWatchList.length; c++) {
             var company = root.ipoWatchList[c];
             if (text.indexOf(company.toLowerCase()) >= 0) {
+                // Only once per company per article
+                if (!root.claimNotification(root.alertKey("ipo-" + company, title)))
+                    return;
                 var cmd = 'notify-send -u critical -a "Tagesschau Widget" "📈 IPO Watch: ' + company + '" "' + title.replace(/"/g, '\\"') + '"';
                 notificationSource.connectSource(cmd);
                 return;
@@ -113,6 +142,8 @@ PlasmoidItem {
 
     function sendDesktopNotification(title) {
         if (!title)
+            return;
+        if (!root.claimNotification(root.alertKey("eil", title)))
             return;
         var cleanTitle = title.replace(/"/g, '\\"');
         var cmd = 'notify-send -u critical -a "Tagesschau" "🚨 TAGESCHAU EILMELDUNG" "' + cleanTitle + '"';
