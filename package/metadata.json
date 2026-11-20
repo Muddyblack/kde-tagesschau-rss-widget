@@ -6,7 +6,7 @@
     "Description": "Premium German news ticker with breaking news (Eilmeldungen) alerts and expandable inline articles.",
     "Icon": "org.muddyblack.tagesschauWidget",
     "Category": "News",
-    "Version": "0.1.0",
+    "Version": "0.1.1",
     "Website": "https://github.com/Muddyblack/tagesschau-widget",
     "Authors": [
       {
